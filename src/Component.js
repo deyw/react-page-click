@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {shouldComponentUpdate} from 'react/lib/ReactComponentWithPureRenderMixin';
 
 
@@ -8,30 +9,20 @@ const MAX_MOVE = 20;
 const extractCoordinates = ({changedTouches}) =>
   ({x: changedTouches[0].screenX, y: changedTouches[0].screenY});
 
-
-export const ReactPageClick = React.createClass({
-  propTypes: {
-    children: React.PropTypes.node.isRequired,
-    notify: React.PropTypes.func.isRequired,
-    onMouseDown: React.PropTypes.func,
-    onTouchStart: React.PropTypes.func,
-    outsideOnly: React.PropTypes.bool,
-    notifyOnTouchEnd: React.PropTypes.bool
-  },
-
+class ReactPageClick extends Component {
 
   getDefaultProps() {
     return {
       outsideOnly: true,
       notifyOnTouchEnd: false
     };
-  },
+  }
 
 
   componentWillMount() {
     this.insideClick = false;
     this.touchStart = null;
-  },
+  }
 
 
   componentDidMount() {
@@ -39,10 +30,10 @@ export const ReactPageClick = React.createClass({
     global.window.addEventListener('mouseup', this.onDocumentMouseUp, false);
     global.window.addEventListener('touchstart', this.onDocumentTouchStart, false);
     global.window.addEventListener('touchend', this.onDocumentTouchEnd, false);
-  },
+  }
 
 
-  shouldComponentUpdate,
+  shouldComponentUpdate() {}
 
 
   componentWillUnmount() {
@@ -50,7 +41,7 @@ export const ReactPageClick = React.createClass({
     global.window.removeEventListener('mouseup', this.onDocumentMouseUp, false);
     global.window.removeEventListener('touchstart', this.onDocumentTouchStart, false);
     global.window.removeEventListener('touchend', this.onDocumentTouchEnd, false);
-  },
+  }
 
 
   onDocumentMouseDown(...args) {
@@ -58,12 +49,12 @@ export const ReactPageClick = React.createClass({
       return;
     }
     this.props.notify(...args);
-  },
+  }
 
 
   onDocumentMouseUp() {
     this.insideClick = false;
-  },
+  }
 
 
   onDocumentTouchStart(event, ...args) {
@@ -75,7 +66,7 @@ export const ReactPageClick = React.createClass({
     } else {
       this.props.notify(event, ...args);
     }
-  },
+  }
 
 
   onDocumentTouchEnd(event, ...args) {
@@ -93,15 +84,14 @@ export const ReactPageClick = React.createClass({
     }
     this.touchStart = null;
     this.insideClick = false;
-  },
-
+  }
 
   onMouseDown(...args) {
     this.insideClick = true;
     if (this.props.onMouseDown) {
       this.props.onMouseDown(...args);
     }
-  },
+  }
 
 
   onTouchStart(...args) {
@@ -109,7 +99,7 @@ export const ReactPageClick = React.createClass({
     if (this.props.onTouchStart) {
       this.props.onTouchStart(...args);
     }
-  },
+  }
 
 
   render() {
@@ -120,4 +110,15 @@ export const ReactPageClick = React.createClass({
 
     return React.cloneElement(React.Children.only(this.props.children), props);
   }
-});
+}
+
+ReactPageClick.propTypes = {
+    children: PropTypes.node.isRequired,
+    notify: PropTypes.func.isRequired,
+    onMouseDown: PropTypes.func,
+    onTouchStart: PropTypes.func,
+    outsideOnly: PropTypes.bool,
+    notifyOnTouchEnd: PropTypes.bool
+};
+
+export default ReactPageClick;

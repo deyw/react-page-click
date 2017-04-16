@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {ReactPageClick} from '../..';
 
 
@@ -32,11 +33,7 @@ const styles = {
 };
 
 
-const Modal = React.createClass({
-  propTypes: {
-    onClose: React.PropTypes.func.isRequired,
-    notifyOnTouchEnd: React.PropTypes.bool
-  },
+class Modal extends Component {
 
   render() {
     const {onClose, notifyOnTouchEnd, ...props} = this.props;
@@ -52,7 +49,11 @@ const Modal = React.createClass({
       </div>
     );
   }
-});
+}
 
+Modal.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    notifyOnTouchEnd: PropTypes.bool
+};
 
 export default Modal;

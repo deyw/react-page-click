@@ -1,35 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Modal from './Modal.js';
 import css from './App.css';
 
 
-const App = React.createClass({
+class App extends Component {
   getInitialState() {
     return {
       showModal: false,
       showLazyModal: false
     };
-  },
-
+  }
 
   showModal() {
     this.setState({showModal: true});
-  },
-
+  }
 
   hideModal() {
     this.setState({showModal: false});
-  },
-
+  }
 
   showLazyModal() {
     this.setState({showLazyModal: true});
-  },
-
+  }
 
   hideLazyModal() {
     this.setState({showLazyModal: false});
-  },
+  }
 
   render() {
     const {showModal, showLazyModal} = this.state;
@@ -64,5 +60,6 @@ const App = React.createClass({
       </div>
     );
   }
-});
+}
+
 export default App;
